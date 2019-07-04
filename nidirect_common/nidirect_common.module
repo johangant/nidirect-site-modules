@@ -11,6 +11,43 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Utility\Xss;
 
 /**
+ * Implements hook_preprocess_geolocation_map_formatter().
+ *
+ * @param array $variables
+ *   Render array contents.
+ */
+function nidirect_common_preprocess_geolocation_map_formatter(array &$variables) {
+  foreach ($variables['locations'] as $i => &$element) {
+    $element['#theme'] = 'location_map';
+    $element['#show_metadata'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * @return array
+ *   Information about the renderable thing.
+ */
+function nidirect_common_theme() {
+  return [
+    'location_map' => [
+      'variables' => [
+        'content' => NULL,
+        'title' => NULL,
+        'position' => NULL,
+        'location_id' => NULL,
+        'disable_marker' => NULL,
+        'icon' => NULL,
+        'marker_label' => NULL,
+        'show_metadata' => NULL,
+      ],
+      'template' => 'location-map',
+    ]
+  ];
+}
+
+/**
  * Implements hook_help().
  */
 function nidirect_common_help($route_name, RouteMatchInterface $route_match) {
